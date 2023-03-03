@@ -2,3 +2,8 @@ node_modules/
 .env
 config.json
 .DS_Store
+.eslintrc.json
+db/
+data/mydb.sqlite
+bdays/
+games/showGames.js
