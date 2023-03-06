@@ -11,7 +11,7 @@ async function clearGamesChannel(client) {
 	const msgs = await channel.messages.fetch({ limit: 100 });
 
 	if (msgs.size > 5) {
-		await channel.bulkDelete(100)
+		await channel.bulkDelete(100, true)
 			.then(messages => console.log(`Deleted ${messages.size} messages from ${channel.name}.`))
 			.catch(console.error);
 		showGames(channel);
