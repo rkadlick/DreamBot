@@ -4,9 +4,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
-const { createTable } = require('./db/schema.js');
-createTable();
-
+const { createGamesTable, createTriviaChoiceTable, createTriviaQuestionTable, createTriviaStatsTable, deleteTriviaStatsTable } = require('./db/schema.js');
+const { addQuestion } = require('./trivia/addQuestion.js');
+//  createGamesTable();
+//  createTriviaChoiceTable();
+// createTriviaQuestionTable();
+// addQuestion();
+// createTriviaStatsTable();
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,

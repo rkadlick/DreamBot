@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { getGameId } = require('../functions/getGameId.js');
 const db = require('../db/gameQueries.js');
 const { gamesChannelId, seanPaul, luap, popSmoke } = require('../config.json');
 const { showGames } = require('../games/showGames');
@@ -23,7 +22,7 @@ module.exports = {
 		}
 		await interaction.deferReply();
 		const name = interaction.options.getString('game');
-		const id = await getGameId(name);
+		const id = await db.getGameById(name);
 		const boo = interaction.options.getBoolean('mark');
 
 		// console.log('Id: ' + id);
