@@ -3,7 +3,8 @@ const fetch = require('node-fetch-commonjs');
 const { getGameId } = require('../functions/getGameId.js');
 const { toPrice } = require('../functions/price.js');
 const db = require('../db/gameQueries.js');
-const { gamesChannelId } = require('../config.json');
+require('dotenv').config();
+const gamesChannelId = process.env.GAMES_CHANNEL_ID;
 const { showGames } = require('../games/showGames');
 
 module.exports = {

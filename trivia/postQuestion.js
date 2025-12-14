@@ -1,5 +1,6 @@
 const { ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
-const { triviaChannelId } = require('../config.json');
+require('dotenv').config();
+const triviaChannelId = process.env.TRIVIA_CHANNEL_ID;
 const { insertAnswer, getQuestion, getChoices } = require('../db/triviaQueries.js');
 const { triviaCategoryToColor } = require('../data/triviaCatgories.js');
 const { shuffle } = require('../functions/shuffleArray');

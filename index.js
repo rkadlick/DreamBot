@@ -3,9 +3,15 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
-const { createGamesTable, createTriviaChoiceTable, createTriviaQuestionTable, createTriviaStatsTable, deleteTriviaStatsTable } = require('./db/schema.js');
-const { addQuestion } = require('./trivia/addQuestion.js');
+require('dotenv').config();
+const token = process.env.TOKEN;
+if (!token) {
+	throw new Error('TOKEN environment variable is required but was not found. Please set it in .env.');
+}
+// Importing DB schema helpers is no longer needed at runtime for the current migration.
+// Keeping the require lines commented out to avoid linter warnings until used.
+// const { createGamesTable, createTriviaChoiceTable, createTriviaQuestionTable, createTriviaStatsTable, deleteTriviaStatsTable } = require('./db/schema.js');
+// const { addQuestion } = require('./trivia/addQuestion.js');
 //  createGamesTable();
 //  createTriviaChoiceTable();
 // createTriviaQuestionTable();

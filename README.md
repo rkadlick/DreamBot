@@ -9,14 +9,13 @@ To use this bot, you will need to do the following:
 1. Clone this repository to your local machine.
 2. Install the necessary dependencies by running `npm install`. If you do not have nodejs you will need to install it
 3. Set up a Discord bot and obtain a bot token.
-4. Create a `config.json` file in the root directory of the project and add the following:
+4. Create a `.env` file in the root of the project and set the following variables (one per line). Use real values from your Discord bot setup.
 
-  
-<code>{
-    "clientId": "Bot ID",
-    "guildId": "your discord server ID",
-    "token": "your bot token",
-      }</code>
+```
+TOKEN=your-bot-token
+CLIENT_ID=your-bot-client-id
+GUILD_ID=your-discord-guild-id
+```
   
 
 5. Run the bot by running `node index.js` or `node .`. 

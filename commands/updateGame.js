@@ -2,7 +2,8 @@ const { SlashCommandBuilder } = require('discord.js');
 const fetch = require('node-fetch-commonjs');
 const { toPrice } = require('../functions/price.js');
 const { updateGame, getGameId } = require('../db/gameQueries.js');
-const { gamesChannelId } = require('../config.json');
+require('dotenv').config();
+const gamesChannelId = process.env.GAMES_CHANNEL_ID;
 const { showGames } = require('../games/showGames');
 
 module.exports = {
