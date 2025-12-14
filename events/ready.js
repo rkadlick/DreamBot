@@ -1,6 +1,6 @@
 const { Events } = require('discord.js');
 const { daily } = require('../scheduler/daily');
-const { postQuestion } = require('../trivia/showQuestion');
+const { postQuestion } = require('../trivia/postQuestion');
 
 module.exports = {
 	name: Events.ClientReady,
