@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const db = require('../db/gameQueries.js');
-const { gamesChannelId } = require('../config.json');
+const { gamesChannelId } = process.env.GAMES_CHANNEL_ID;
 const { showGames } = require('../games/showGames');
 
 module.exports = {

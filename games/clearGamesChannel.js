@@ -1,4 +1,4 @@
-const { gamesChannelId } = require('../config.json');
+const { gamesChannelId } = process.env.GAMES_CHANNEL_ID;
 const { showGames } = require('./showGames');
 
 async function clearGamesChannel(client) {

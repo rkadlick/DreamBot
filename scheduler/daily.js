@@ -10,16 +10,16 @@ function daily(client) {
 	// 	clearGamesChannel(client);
 	// });
 	// Trivia scheduling guarded by TRIVIA_ENABLED
-	if (process.env.TRIVIA_ENABLED === 'true') {
-		// 10:50am
-		cron.schedule('50 10 * * *', () => {
-			addQuestion();
-		});
-		// 11am
-		cron.schedule('00 11 * * *', () => {
-			postQuestion(client);
-		});
-	}
+	// if (process.env.TRIVIA_ENABLED === 'true') {
+	// 	// 10:50am
+	// 	cron.schedule('50 10 * * *', () => {
+	// 		addQuestion();
+	// 	});
+	// 	// 11am
+	// 	cron.schedule('00 11 * * *', () => {
+	// 		postQuestion(client);
+	// 	});
+	// }
 }
 
 module.exports = { daily };
