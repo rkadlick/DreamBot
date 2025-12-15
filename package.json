@@ -1,17 +1,25 @@
 {
   "name": "discordbot",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js",
+    "dev": "tsx ./src/index.ts",
+    "lint": "eslint '**/*.{ts,js}'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
-    "eslint": "^8.33.0"
+    "eslint": "^8.33.0",
+    "typescript": "^5.3.3",
+    "tsx": "^4.7.0",
+    "@types/node": "^20.11.0",
+    "@types/node-cron": "^3.0.11"
   },
   "dependencies": {
     "ascii-table3": "^0.8.2",
@@ -19,8 +27,7 @@
     "discord.js": "^14.8.0",
     "node-cron": "^3.0.2",
     "node-fetch-commonjs": "^3.2.4",
-    "sqlite": "^4.1.2",
-    "sqlite3": "^5.1.6",
+    "better-sqlite3": "^11.0.0",
     "dotenv": "^16.0.3",
     "undici": "^5.16.0"
   },

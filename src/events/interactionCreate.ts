@@ -1,0 +1,26 @@
+import { Events } from 'discord.js';
+import type { Event, ExtendedClient } from '../types/index.js';
+
+export const event: Event = {
+	name: Events.InteractionCreate,
+	async execute(interaction) {
+		if (interaction.isChatInputCommand()) {
+			const command = (interaction.client as ExtendedClient).commands.get(interaction.commandName);
+
+			if (!command) {
+				console.error(`No command matching ${interaction.commandName} was found.`);
+				return;
+			}
+
+			try {
+				await command.execute(interaction);
+			} catch (error) {
+				console.error(`Error executing ${interaction.commandName}`);
+				console.error(error);
+			}
+		} else if (interaction.isButton()) {
+			// respond to the button
+		}
+	},
+};
+
