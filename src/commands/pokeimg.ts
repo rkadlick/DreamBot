@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { request } from 'undici';
+import fetch from 'node-fetch-commonjs';
 import { capitalizeFirstLetter } from '../functions/string.js';
 import type { Command } from '../types/index.js';
 import type { PokemonAPIResponse } from '../types/index.js';
@@ -15,8 +15,8 @@ export const command: Command = {
 	async execute(interaction) {
 		await interaction.deferReply();
 		const name = interaction.options.getString('input', true);
-		const res = await request(`https://pokeapi.co/api/v2/pokemon/${name}`);
-		const json = await res.body.json() as PokemonAPIResponse;
+		const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+		const json = await res.json() as PokemonAPIResponse;
 
 		const height = String(json.height * 3.937008);
 		const weight = String(json.weight * 0.2204623);

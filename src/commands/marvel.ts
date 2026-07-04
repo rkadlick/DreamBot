@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { request } from 'undici';
+import fetch from 'node-fetch-commonjs';
 import { printDate } from '../functions/date.js';
 import type { Command } from '../types/index.js';
 import type { MarvelAPIResponse } from '../types/index.js';
@@ -11,8 +11,8 @@ export const command: Command = {
 	async execute(interaction) {
 		await interaction.deferReply();
 		const date = printDate();
-		const res = await request(`https://www.whenisthenextmcufilm.com/api?date=${date}`);
-		const json = await res.body.json() as MarvelAPIResponse;
+		const res = await fetch(`https://www.whenisthenextmcufilm.com/api?date=${date}`);
+		const json = await res.json() as MarvelAPIResponse;
 
 		const embed = new EmbedBuilder()
 			.setColor(0xFF0000)
