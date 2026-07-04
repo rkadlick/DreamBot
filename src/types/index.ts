@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Client, Collection, Events } from 'discord.js';
-import Database from 'better-sqlite3';
+import Database from 'better-sqlite3';	
 
 // Command type definition
 export interface Command {
@@ -130,3 +130,62 @@ export interface PokemonAPIResponse {
 // Database instance type
 export type DatabaseInstance = Database.Database;
 
+
+export interface PlayerGameStats {
+	id: string;
+	player_id: string;
+	season_id: string;
+	game_date: string; // Date played (in-game date)
+	opponent_team_id?: string;
+	opponent_team_logo?: string;
+	opponent_team_name?: string;
+	is_home: boolean;
+	is_win: boolean;
+	player_score: number;
+	opponent_score: number;
+	is_cup_game?: boolean;
+	is_simulated?: boolean;
+	is_overtime?: boolean;
+	is_key_game?: boolean;
+	is_playoff_game?: boolean;
+	playoff_series_id?: string;
+	playoff_game_number?: number; // e.g., Game 3 of second round
+	// Stats
+	minutes?: number;
+	points?: number;
+	rebounds?: number;
+	offensive_rebounds?: number;
+	assists?: number;
+	steals?: number;
+	blocks?: number;
+	turnovers?: number;
+	fouls?: number;
+	plus_minus?: number;
+	fg_made?: number;
+	fg_attempted?: number;
+	threes_made?: number;
+	threes_attempted?: number;
+	ft_made?: number;
+	ft_attempted?: number;
+	created_at?: string;
+	updated_at?: string;
+  }
+
+  export interface TeamColors {
+	primary: string;
+	secondary: string;
+	onPrimary: string; // text color that passes accessibility contrast on the primary background
+  }
+
+  export interface Team {
+	id: string; // e.g., "team-atl"
+	fullName: string; // e.g., "Atlanta Hawks"
+	abbreviation: string; // e.g., "ATL"
+	conference: 'East' | 'West';
+	colors: TeamColors;
+	numericId: string; // NBA API ID for logos
+  }
+
+  export interface PlayerGameStatsWithDetails extends PlayerGameStats {
+	opponent_team?: Team;
+  }
