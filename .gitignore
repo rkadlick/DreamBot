@@ -3,7 +3,8 @@ node_modules/
 .DS_Store
 .eslintrc.json
 db/
-data/mydb.sqlite
 bdays/
 games/showGames.js
 .DS_Store
+dist/
+src/data/mydb.sqlite

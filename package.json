@@ -8,6 +8,7 @@
     "build": "tsc",
     "start": "npm run build && node dist/index.js",
     "dev": "tsx ./src/index.ts",
+    "deploy-commands": "tsx ./src/handlers/deploy-commands.ts",
     "lint": "eslint '**/*.{ts,js}'"
   },
   "keywords": [],

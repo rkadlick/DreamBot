@@ -1,4 +1,5 @@
 import { Events } from 'discord.js';
+import { handleNbaStatsToggle } from '../nba/toggleStats.js';
 import type { Event, ExtendedClient } from '../types/index.js';
 
 export const event: Event = {
@@ -19,7 +20,9 @@ export const event: Event = {
 				console.error(error);
 			}
 		} else if (interaction.isButton()) {
-			// respond to the button
+			if (interaction.customId.startsWith('nba_stats:')) {
+				await handleNbaStatsToggle(interaction);
+			}
 		}
 	},
 };

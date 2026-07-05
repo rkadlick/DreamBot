@@ -16,9 +16,17 @@ TOKEN=your-bot-token
 CLIENT_ID=your-bot-client-id
 GUILD_ID=your-discord-guild-id
 ```
-  
 
-5. Run the bot by running `node index.js` or `node .`. 
+Optional NBA statline posting (requires Supabase Realtime on `player_game_stats`):
+
+```
+NBA_ENABLED=true
+NBA_CHANNEL_ID=your-nba-discord-channel-id
+SUPABASE_URL=your-supabase-project-url
+SUPABASE_ANON_KEY=your-supabase-anon-key
+```
+
+5. Run the bot by running `npm run dev` or `npm start`.
 
 Disclaimer: Certain files are related to the gaming commands and database are hidden due to privacy concerns.
 
@@ -42,6 +50,10 @@ The bot is configured to display a table in a specific Discord channel at midnig
 - `/add_game [input]`: Adds a Steam game, entered as input, and the price to a table in the database.
 - `/update_game [input]`: Updates price of game that is currently in the database.
 - `/mark [input] [boolean]`: Marks the user's ownership of the game in the database as true or false.
+
+### NBA Game Stats
+
+When `NBA_ENABLED=true`, the bot listens to Supabase Realtime inserts on `player_game_stats` and posts a statline embed to `NBA_CHANNEL_ID` after each game. Missed games while the bot was offline are backfilled on startup (last 24 hours).
 
 ## Screenshots
 [![Marvel Command](https://i.postimg.cc/MHNWTQN6/Screenshot-2023-03-14-at-8-12-19-PM.jpg)](https://postimg.cc/RJ1rpNvy)

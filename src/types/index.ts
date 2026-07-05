@@ -169,6 +169,7 @@ export interface PlayerGameStats {
 	ft_attempted?: number;
 	created_at?: string;
 	updated_at?: string;
+	headline?: string | null;
   }
 
   export interface TeamColors {
