@@ -11,7 +11,6 @@ import type { PlayerGameStatsWithDetails } from '../types/index.js';
 
 const WIN_COLOR = 0x57F287;
 const LOSS_COLOR = 0xED4245;
-const ZWSP = '\u200b';
 
 export const NBA_STATS_BUTTON_PREFIX = 'nba_stats';
 
@@ -47,13 +46,51 @@ function formatScore(playerScore: number, opponentScore: number): string {
 	return `${high}-${low}`;
 }
 
-function statField(label: string, value: string, rowEnd = false) {
-	const displayValue = rowEnd ? `${value}\n${ZWSP}` : value;
-	return { name: label, value: displayValue, inline: true as const };
+function formatStatPair(label: string, value: string): string {
+	return `**${label}** ${value}`;
 }
 
-function statFieldSpacer() {
-	return { name: ZWSP, value: ZWSP, inline: true as const };
+function buildStatsLines(stat: PlayerGameStatsWithDetails, expanded: boolean): string[] {
+	const topRow = [
+		formatStatPair('PTS', formatStatValue(stat.points)),
+		formatStatPair('AST', formatStatValue(stat.assists)),
+		formatStatPair('REB', formatStatValue(stat.rebounds)),
+	].join(' · ');
+
+	if (!expanded) {
+		return [topRow];
+	}
+
+	return [
+		topRow,
+		[
+			formatStatPair('MIN', formatStatValue(stat.minutes)),
+			formatStatPair('STL', formatStatValue(stat.steals)),
+			formatStatPair('BLK', formatStatValue(stat.blocks)),
+		].join(' · '),
+		[
+			formatStatPair('FG', formatShooting(stat.fg_made, stat.fg_attempted)),
+			formatStatPair('3PT', formatShooting(stat.threes_made, stat.threes_attempted)),
+			formatStatPair('FT', formatShooting(stat.ft_made, stat.ft_attempted)),
+		].join(' · '),
+		[
+			formatStatPair('TO', formatStatValue(stat.turnovers)),
+			formatStatPair('+/-', formatPlusMinus(stat.plus_minus)),
+		].join(' · '),
+	];
+}
+
+function buildDescription(
+	stat: PlayerGameStatsWithDetails,
+	playerLabel: string,
+	scoreTitle: string,
+	headline: string | undefined,
+	expanded: boolean,
+): string {
+	const playerLine = `${playerLabel} · ${formatGameDate(stat.game_date)}`;
+	const statsBlock = buildStatsLines(stat, expanded).join('\n');
+	const lines = headline ? [scoreTitle, playerLine, statsBlock] : [playerLine, statsBlock];
+	return lines.join('\n');
 }
 
 function buildBadges(stat: PlayerGameStatsWithDetails): string[] {
@@ -64,31 +101,6 @@ function buildBadges(stat: PlayerGameStatsWithDetails): string[] {
 	if (stat.is_key_game) badges.push('Key Game');
 	if (stat.is_simulated) badges.push('Simulated');
 	return badges;
-}
-
-function buildStatFields(stat: PlayerGameStatsWithDetails, expanded: boolean) {
-	const topRow = [
-		statField('PTS', formatStatValue(stat.points)),
-		statField('AST', formatStatValue(stat.assists)),
-		statField('REB', formatStatValue(stat.rebounds), true),
-	];
-
-	if (!expanded) {
-		return topRow;
-	}
-
-	return [
-		...topRow,
-		statField('MIN', formatStatValue(stat.minutes)),
-		statField('STL', formatStatValue(stat.steals)),
-		statField('BLK', formatStatValue(stat.blocks), true),
-		statField('FG', formatShooting(stat.fg_made, stat.fg_attempted)),
-		statField('3PT', formatShooting(stat.threes_made, stat.threes_attempted)),
-		statField('FT', formatShooting(stat.ft_made, stat.ft_attempted), true),
-		statField('TO', formatStatValue(stat.turnovers)),
-		statFieldSpacer(),
-		statField('+/-', formatPlusMinus(stat.plus_minus)),
-	];
 }
 
 export function formatStatlineEmbed(
@@ -102,8 +114,7 @@ export function formatStatlineEmbed(
 	const result = stat.is_win ? 'W' : 'L';
 	const score = formatScore(stat.player_score, stat.opponent_score);
 	const scoreTitle = `${result} ${score} ${location} ${opponentAbbr}`;
-	const headline = stat.headline?.trim();
-	const playerLine = `${playerLabel} · ${formatGameDate(stat.game_date)}`;
+	const headline = stat.headline?.trim() || undefined;
 
 	const opponentKey = stat.opponent_team_id ?? stat.opponent_team_name ?? '';
 	const logoUrl = getTeamLogoUrl(opponentKey);
@@ -111,9 +122,8 @@ export function formatStatlineEmbed(
 
 	const embed = new EmbedBuilder()
 		.setColor(embedColor)
-		.setTitle(headline || scoreTitle)
-		.setDescription(headline ? `${scoreTitle}\n${playerLine}` : playerLine)
-		.addFields(...buildStatFields(stat, expanded));
+		.setTitle(headline ?? scoreTitle)
+		.setDescription(buildDescription(stat, playerLabel, scoreTitle, headline, expanded));
 
 	if (logoUrl) {
 		embed.setThumbnail(logoUrl);
